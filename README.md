@@ -5,3 +5,5 @@
 5. msqljdbcjre8 jar, copy ke bundles->tomcat-9.0.82->lib, rerun project kemudian klik finish di localhost
 6. masukkan activation key xml ke folder bundles->deploy
 7. pada module, klik 2x build dan deploy
+
+https://help.liferay.com/hc/en-us/articles/360018163951-Writing-Your-First-Liferay-DXP-Application-
