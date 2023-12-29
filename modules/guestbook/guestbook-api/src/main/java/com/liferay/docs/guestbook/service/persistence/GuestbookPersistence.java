@@ -225,12 +225,166 @@ public interface GuestbookPersistence extends BasePersistence<Guestbook> {
 	public int countByUUID_G(String uuid, long groupId);
 
 	/**
+	 * Returns all the guestbooks where uuid = &#63; and companyId = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @return the matching guestbooks
+	 */
+	public java.util.List<Guestbook> findByUuid_C(String uuid, long companyId);
+
+	/**
+	 * Returns a range of all the guestbooks where uuid = &#63; and companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>GuestbookModelImpl</code>.
+	 * </p>
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of guestbooks
+	 * @param end the upper bound of the range of guestbooks (not inclusive)
+	 * @return the range of matching guestbooks
+	 */
+	public java.util.List<Guestbook> findByUuid_C(
+		String uuid, long companyId, int start, int end);
+
+	/**
+	 * Returns an ordered range of all the guestbooks where uuid = &#63; and companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>GuestbookModelImpl</code>.
+	 * </p>
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of guestbooks
+	 * @param end the upper bound of the range of guestbooks (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching guestbooks
+	 */
+	public java.util.List<Guestbook> findByUuid_C(
+		String uuid, long companyId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Guestbook>
+			orderByComparator);
+
+	/**
+	 * Returns an ordered range of all the guestbooks where uuid = &#63; and companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>GuestbookModelImpl</code>.
+	 * </p>
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of guestbooks
+	 * @param end the upper bound of the range of guestbooks (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching guestbooks
+	 */
+	public java.util.List<Guestbook> findByUuid_C(
+		String uuid, long companyId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Guestbook>
+			orderByComparator,
+		boolean useFinderCache);
+
+	/**
+	 * Returns the first guestbook in the ordered set where uuid = &#63; and companyId = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching guestbook
+	 * @throws NoSuchGuestbookException if a matching guestbook could not be found
+	 */
+	public Guestbook findByUuid_C_First(
+			String uuid, long companyId,
+			com.liferay.portal.kernel.util.OrderByComparator<Guestbook>
+				orderByComparator)
+		throws NoSuchGuestbookException;
+
+	/**
+	 * Returns the first guestbook in the ordered set where uuid = &#63; and companyId = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching guestbook, or <code>null</code> if a matching guestbook could not be found
+	 */
+	public Guestbook fetchByUuid_C_First(
+		String uuid, long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Guestbook>
+			orderByComparator);
+
+	/**
+	 * Returns the last guestbook in the ordered set where uuid = &#63; and companyId = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching guestbook
+	 * @throws NoSuchGuestbookException if a matching guestbook could not be found
+	 */
+	public Guestbook findByUuid_C_Last(
+			String uuid, long companyId,
+			com.liferay.portal.kernel.util.OrderByComparator<Guestbook>
+				orderByComparator)
+		throws NoSuchGuestbookException;
+
+	/**
+	 * Returns the last guestbook in the ordered set where uuid = &#63; and companyId = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching guestbook, or <code>null</code> if a matching guestbook could not be found
+	 */
+	public Guestbook fetchByUuid_C_Last(
+		String uuid, long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<Guestbook>
+			orderByComparator);
+
+	/**
+	 * Returns the guestbooks before and after the current guestbook in the ordered set where uuid = &#63; and companyId = &#63;.
+	 *
+	 * @param guestbookId the primary key of the current guestbook
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next guestbook
+	 * @throws NoSuchGuestbookException if a guestbook with the primary key could not be found
+	 */
+	public Guestbook[] findByUuid_C_PrevAndNext(
+			long guestbookId, String uuid, long companyId,
+			com.liferay.portal.kernel.util.OrderByComparator<Guestbook>
+				orderByComparator)
+		throws NoSuchGuestbookException;
+
+	/**
+	 * Removes all the guestbooks where uuid = &#63; and companyId = &#63; from the database.
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 */
+	public void removeByUuid_C(String uuid, long companyId);
+
+	/**
+	 * Returns the number of guestbooks where uuid = &#63; and companyId = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @return the number of matching guestbooks
+	 */
+	public int countByUuid_C(String uuid, long companyId);
+
+	/**
 	 * Returns all the guestbooks where groupId = &#63;.
 	 *
 	 * @param groupId the group ID
 	 * @return the matching guestbooks
 	 */
-	public java.util.List<Guestbook> findByEntry(long groupId);
+	public java.util.List<Guestbook> findByGroupId(long groupId);
 
 	/**
 	 * Returns a range of all the guestbooks where groupId = &#63;.
@@ -244,7 +398,7 @@ public interface GuestbookPersistence extends BasePersistence<Guestbook> {
 	 * @param end the upper bound of the range of guestbooks (not inclusive)
 	 * @return the range of matching guestbooks
 	 */
-	public java.util.List<Guestbook> findByEntry(
+	public java.util.List<Guestbook> findByGroupId(
 		long groupId, int start, int end);
 
 	/**
@@ -260,7 +414,7 @@ public interface GuestbookPersistence extends BasePersistence<Guestbook> {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching guestbooks
 	 */
-	public java.util.List<Guestbook> findByEntry(
+	public java.util.List<Guestbook> findByGroupId(
 		long groupId, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<Guestbook>
 			orderByComparator);
@@ -279,7 +433,7 @@ public interface GuestbookPersistence extends BasePersistence<Guestbook> {
 	 * @param useFinderCache whether to use the finder cache
 	 * @return the ordered range of matching guestbooks
 	 */
-	public java.util.List<Guestbook> findByEntry(
+	public java.util.List<Guestbook> findByGroupId(
 		long groupId, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<Guestbook>
 			orderByComparator,
@@ -293,7 +447,7 @@ public interface GuestbookPersistence extends BasePersistence<Guestbook> {
 	 * @return the first matching guestbook
 	 * @throws NoSuchGuestbookException if a matching guestbook could not be found
 	 */
-	public Guestbook findByEntry_First(
+	public Guestbook findByGroupId_First(
 			long groupId,
 			com.liferay.portal.kernel.util.OrderByComparator<Guestbook>
 				orderByComparator)
@@ -306,7 +460,7 @@ public interface GuestbookPersistence extends BasePersistence<Guestbook> {
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching guestbook, or <code>null</code> if a matching guestbook could not be found
 	 */
-	public Guestbook fetchByEntry_First(
+	public Guestbook fetchByGroupId_First(
 		long groupId,
 		com.liferay.portal.kernel.util.OrderByComparator<Guestbook>
 			orderByComparator);
@@ -319,7 +473,7 @@ public interface GuestbookPersistence extends BasePersistence<Guestbook> {
 	 * @return the last matching guestbook
 	 * @throws NoSuchGuestbookException if a matching guestbook could not be found
 	 */
-	public Guestbook findByEntry_Last(
+	public Guestbook findByGroupId_Last(
 			long groupId,
 			com.liferay.portal.kernel.util.OrderByComparator<Guestbook>
 				orderByComparator)
@@ -332,7 +486,7 @@ public interface GuestbookPersistence extends BasePersistence<Guestbook> {
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching guestbook, or <code>null</code> if a matching guestbook could not be found
 	 */
-	public Guestbook fetchByEntry_Last(
+	public Guestbook fetchByGroupId_Last(
 		long groupId,
 		com.liferay.portal.kernel.util.OrderByComparator<Guestbook>
 			orderByComparator);
@@ -346,7 +500,7 @@ public interface GuestbookPersistence extends BasePersistence<Guestbook> {
 	 * @return the previous, current, and next guestbook
 	 * @throws NoSuchGuestbookException if a guestbook with the primary key could not be found
 	 */
-	public Guestbook[] findByEntry_PrevAndNext(
+	public Guestbook[] findByGroupId_PrevAndNext(
 			long guestbookId, long groupId,
 			com.liferay.portal.kernel.util.OrderByComparator<Guestbook>
 				orderByComparator)
@@ -357,7 +511,7 @@ public interface GuestbookPersistence extends BasePersistence<Guestbook> {
 	 *
 	 * @param groupId the group ID
 	 */
-	public void removeByEntry(long groupId);
+	public void removeByGroupId(long groupId);
 
 	/**
 	 * Returns the number of guestbooks where groupId = &#63;.
@@ -365,7 +519,7 @@ public interface GuestbookPersistence extends BasePersistence<Guestbook> {
 	 * @param groupId the group ID
 	 * @return the number of matching guestbooks
 	 */
-	public int countByEntry(long groupId);
+	public int countByGroupId(long groupId);
 
 	/**
 	 * Caches the guestbook in the entity cache if it is enabled.

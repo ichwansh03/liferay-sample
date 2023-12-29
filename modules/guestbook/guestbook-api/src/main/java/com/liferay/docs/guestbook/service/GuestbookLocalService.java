@@ -6,8 +6,10 @@
 package com.liferay.docs.guestbook.service;
 
 import com.liferay.docs.guestbook.model.Guestbook;
+import com.liferay.exportimport.kernel.lar.PortletDataContext;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -17,6 +19,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -64,6 +67,10 @@ public interface GuestbookLocalService
 	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public Guestbook addGuestbook(Guestbook guestbook);
+
+	public Guestbook addGuestbook(
+			long userId, String name, ServiceContext serviceContext)
+		throws PortalException;
 
 	/**
 	 * Creates a new guestbook with the primary key. Does not add the guestbook to the database.
@@ -196,6 +203,10 @@ public interface GuestbookLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public ExportActionableDynamicQuery getExportActionableDynamicQuery(
+		PortletDataContext portletDataContext);
+
 	/**
 	 * Returns the guestbook with the primary key.
 	 *
@@ -218,6 +229,9 @@ public interface GuestbookLocalService
 	public Guestbook getGuestbookByUuidAndGroupId(String uuid, long groupId)
 		throws PortalException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getGuestbookCount(long groupId);
+
 	/**
 	 * Returns a range of all the guestbooks.
 	 *
@@ -231,6 +245,42 @@ public interface GuestbookLocalService
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Guestbook> getGuestbooks(int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Guestbook> getGuestbooks(long groupId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Guestbook> getGuestbooks(long groupId, int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Guestbook> getGuestbooks(
+		long groupId, int start, int end, OrderByComparator<Guestbook> obc);
+
+	/**
+	 * Returns all the guestbooks matching the UUID and company.
+	 *
+	 * @param uuid the UUID of the guestbooks
+	 * @param companyId the primary key of the company
+	 * @return the matching guestbooks, or an empty list if no matches were found
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Guestbook> getGuestbooksByUuidAndCompanyId(
+		String uuid, long companyId);
+
+	/**
+	 * Returns a range of guestbooks matching the UUID and company.
+	 *
+	 * @param uuid the UUID of the guestbooks
+	 * @param companyId the primary key of the company
+	 * @param start the lower bound of the range of guestbooks
+	 * @param end the upper bound of the range of guestbooks (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the range of matching guestbooks, or an empty list if no matches were found
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Guestbook> getGuestbooksByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Guestbook> orderByComparator);
 
 	/**
 	 * Returns the number of guestbooks.

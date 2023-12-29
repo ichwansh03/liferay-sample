@@ -8,6 +8,7 @@ package com.liferay.docs.guestbook.service;
 import com.liferay.docs.guestbook.model.Entry;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
@@ -47,6 +48,16 @@ public class EntryLocalServiceUtil {
 	 */
 	public static Entry addEntry(Entry entry) {
 		return getService().addEntry(entry);
+	}
+
+	public static Entry addEntry(
+			long userId, long guestbookId, String name, String email,
+			String message,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().addEntry(
+			userId, guestbookId, name, email, message, serviceContext);
 	}
 
 	/**
@@ -96,6 +107,14 @@ public class EntryLocalServiceUtil {
 	 */
 	public static Entry deleteEntry(long entryId) throws PortalException {
 		return getService().deleteEntry(entryId);
+	}
+
+	public static Entry deleteEntry(
+			long entryId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().deleteEntry(entryId, serviceContext);
 	}
 
 	/**
@@ -221,6 +240,24 @@ public class EntryLocalServiceUtil {
 		return getService().getEntries(start, end);
 	}
 
+	public static List<Entry> getEntries(long groupId, long guestbookId) {
+		return getService().getEntries(groupId, guestbookId);
+	}
+
+	public static List<Entry> getEntries(
+			long groupId, long guestbookId, int start, int end)
+		throws SystemException {
+
+		return getService().getEntries(groupId, guestbookId, start, end);
+	}
+
+	public static List<Entry> getEntries(
+		long groupId, long guestbookId, int start, int end,
+		OrderByComparator<Entry> obc) {
+
+		return getService().getEntries(groupId, guestbookId, start, end, obc);
+	}
+
 	/**
 	 * Returns all the entries matching the UUID and company.
 	 *
@@ -259,6 +296,10 @@ public class EntryLocalServiceUtil {
 	 */
 	public static int getEntriesCount() {
 		return getService().getEntriesCount();
+	}
+
+	public static int getEntriesCount(long groupId, long guestbookId) {
+		return getService().getEntriesCount(groupId, guestbookId);
 	}
 
 	/**
@@ -331,6 +372,16 @@ public class EntryLocalServiceUtil {
 	 */
 	public static Entry updateEntry(Entry entry) {
 		return getService().updateEntry(entry);
+	}
+
+	public static Entry updateEntry(
+			long userId, long guestbookId, long entryId, String name,
+			String email, String message,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException, SystemException {
+
+		return getService().updateEntry(
+			userId, guestbookId, entryId, name, email, message, serviceContext);
 	}
 
 	public static EntryLocalService getService() {

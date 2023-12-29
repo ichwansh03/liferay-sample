@@ -52,7 +52,7 @@ public class GuestbookCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(17);
+		StringBundler sb = new StringBundler(27);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -60,6 +60,16 @@ public class GuestbookCacheModel
 		sb.append(guestbookId);
 		sb.append(", groupId=");
 		sb.append(groupId);
+		sb.append(", companyId=");
+		sb.append(companyId);
+		sb.append(", userId=");
+		sb.append(userId);
+		sb.append(", userName=");
+		sb.append(userName);
+		sb.append(", createDate=");
+		sb.append(createDate);
+		sb.append(", modifiedDate=");
+		sb.append(modifiedDate);
 		sb.append(", status=");
 		sb.append(status);
 		sb.append(", statusByUserId=");
@@ -88,6 +98,30 @@ public class GuestbookCacheModel
 
 		guestbookImpl.setGuestbookId(guestbookId);
 		guestbookImpl.setGroupId(groupId);
+		guestbookImpl.setCompanyId(companyId);
+		guestbookImpl.setUserId(userId);
+
+		if (userName == null) {
+			guestbookImpl.setUserName("");
+		}
+		else {
+			guestbookImpl.setUserName(userName);
+		}
+
+		if (createDate == Long.MIN_VALUE) {
+			guestbookImpl.setCreateDate(null);
+		}
+		else {
+			guestbookImpl.setCreateDate(new Date(createDate));
+		}
+
+		if (modifiedDate == Long.MIN_VALUE) {
+			guestbookImpl.setModifiedDate(null);
+		}
+		else {
+			guestbookImpl.setModifiedDate(new Date(modifiedDate));
+		}
+
 		guestbookImpl.setStatus(status);
 		guestbookImpl.setStatusByUserId(statusByUserId);
 
@@ -125,6 +159,13 @@ public class GuestbookCacheModel
 
 		groupId = objectInput.readLong();
 
+		companyId = objectInput.readLong();
+
+		userId = objectInput.readLong();
+		userName = objectInput.readUTF();
+		createDate = objectInput.readLong();
+		modifiedDate = objectInput.readLong();
+
 		status = objectInput.readInt();
 
 		statusByUserId = objectInput.readLong();
@@ -145,6 +186,20 @@ public class GuestbookCacheModel
 		objectOutput.writeLong(guestbookId);
 
 		objectOutput.writeLong(groupId);
+
+		objectOutput.writeLong(companyId);
+
+		objectOutput.writeLong(userId);
+
+		if (userName == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(userName);
+		}
+
+		objectOutput.writeLong(createDate);
+		objectOutput.writeLong(modifiedDate);
 
 		objectOutput.writeInt(status);
 
@@ -170,6 +225,11 @@ public class GuestbookCacheModel
 	public String uuid;
 	public long guestbookId;
 	public long groupId;
+	public long companyId;
+	public long userId;
+	public String userName;
+	public long createDate;
+	public long modifiedDate;
 	public int status;
 	public long statusByUserId;
 	public String statusByUserName;

@@ -41,6 +41,16 @@ public class GuestbookLocalServiceWrapper
 		return _guestbookLocalService.addGuestbook(guestbook);
 	}
 
+	@Override
+	public com.liferay.docs.guestbook.model.Guestbook addGuestbook(
+			long userId, String name,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _guestbookLocalService.addGuestbook(
+			userId, name, serviceContext);
+	}
+
 	/**
 	 * Creates a new guestbook with the primary key. Does not add the guestbook to the database.
 	 *
@@ -231,6 +241,16 @@ public class GuestbookLocalServiceWrapper
 		return _guestbookLocalService.getActionableDynamicQuery();
 	}
 
+	@Override
+	public com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery
+		getExportActionableDynamicQuery(
+			com.liferay.exportimport.kernel.lar.PortletDataContext
+				portletDataContext) {
+
+		return _guestbookLocalService.getExportActionableDynamicQuery(
+			portletDataContext);
+	}
+
 	/**
 	 * Returns the guestbook with the primary key.
 	 *
@@ -263,6 +283,11 @@ public class GuestbookLocalServiceWrapper
 			uuid, groupId);
 	}
 
+	@Override
+	public int getGuestbookCount(long groupId) {
+		return _guestbookLocalService.getGuestbookCount(groupId);
+	}
+
 	/**
 	 * Returns a range of all the guestbooks.
 	 *
@@ -279,6 +304,67 @@ public class GuestbookLocalServiceWrapper
 		getGuestbooks(int start, int end) {
 
 		return _guestbookLocalService.getGuestbooks(start, end);
+	}
+
+	@Override
+	public java.util.List<com.liferay.docs.guestbook.model.Guestbook>
+		getGuestbooks(long groupId) {
+
+		return _guestbookLocalService.getGuestbooks(groupId);
+	}
+
+	@Override
+	public java.util.List<com.liferay.docs.guestbook.model.Guestbook>
+		getGuestbooks(long groupId, int start, int end) {
+
+		return _guestbookLocalService.getGuestbooks(groupId, start, end);
+	}
+
+	@Override
+	public java.util.List<com.liferay.docs.guestbook.model.Guestbook>
+		getGuestbooks(
+			long groupId, int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator
+				<com.liferay.docs.guestbook.model.Guestbook> obc) {
+
+		return _guestbookLocalService.getGuestbooks(groupId, start, end, obc);
+	}
+
+	/**
+	 * Returns all the guestbooks matching the UUID and company.
+	 *
+	 * @param uuid the UUID of the guestbooks
+	 * @param companyId the primary key of the company
+	 * @return the matching guestbooks, or an empty list if no matches were found
+	 */
+	@Override
+	public java.util.List<com.liferay.docs.guestbook.model.Guestbook>
+		getGuestbooksByUuidAndCompanyId(String uuid, long companyId) {
+
+		return _guestbookLocalService.getGuestbooksByUuidAndCompanyId(
+			uuid, companyId);
+	}
+
+	/**
+	 * Returns a range of guestbooks matching the UUID and company.
+	 *
+	 * @param uuid the UUID of the guestbooks
+	 * @param companyId the primary key of the company
+	 * @param start the lower bound of the range of guestbooks
+	 * @param end the upper bound of the range of guestbooks (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the range of matching guestbooks, or an empty list if no matches were found
+	 */
+	@Override
+	public java.util.List<com.liferay.docs.guestbook.model.Guestbook>
+		getGuestbooksByUuidAndCompanyId(
+			String uuid, long companyId, int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator
+				<com.liferay.docs.guestbook.model.Guestbook>
+					orderByComparator) {
+
+		return _guestbookLocalService.getGuestbooksByUuidAndCompanyId(
+			uuid, companyId, start, end, orderByComparator);
 	}
 
 	/**

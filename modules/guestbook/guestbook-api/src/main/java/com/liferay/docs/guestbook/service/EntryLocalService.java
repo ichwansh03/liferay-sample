@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -67,6 +68,11 @@ public interface EntryLocalService
 	@Indexable(type = IndexableType.REINDEX)
 	public Entry addEntry(Entry entry);
 
+	public Entry addEntry(
+			long userId, long guestbookId, String name, String email,
+			String message, ServiceContext serviceContext)
+		throws PortalException;
+
 	/**
 	 * Creates a new entry with the primary key. Does not add the entry to the database.
 	 *
@@ -108,6 +114,9 @@ public interface EntryLocalService
 	 */
 	@Indexable(type = IndexableType.DELETE)
 	public Entry deleteEntry(long entryId) throws PortalException;
+
+	public Entry deleteEntry(long entryId, ServiceContext serviceContext)
+		throws PortalException;
 
 	/**
 	 * @throws PortalException
@@ -212,6 +221,19 @@ public interface EntryLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Entry> getEntries(int start, int end);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Entry> getEntries(long groupId, long guestbookId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Entry> getEntries(
+			long groupId, long guestbookId, int start, int end)
+		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Entry> getEntries(
+		long groupId, long guestbookId, int start, int end,
+		OrderByComparator<Entry> obc);
+
 	/**
 	 * Returns all the entries matching the UUID and company.
 	 *
@@ -245,6 +267,9 @@ public interface EntryLocalService
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getEntriesCount();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getEntriesCount(long groupId, long guestbookId);
 
 	/**
 	 * Returns the entry with the primary key.
@@ -302,5 +327,10 @@ public interface EntryLocalService
 	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public Entry updateEntry(Entry entry);
+
+	public Entry updateEntry(
+			long userId, long guestbookId, long entryId, String name,
+			String email, String message, ServiceContext serviceContext)
+		throws PortalException, SystemException;
 
 }

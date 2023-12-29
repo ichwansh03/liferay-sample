@@ -336,13 +336,197 @@ public class GuestbookUtil {
 	}
 
 	/**
+	 * Returns all the guestbooks where uuid = &#63; and companyId = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @return the matching guestbooks
+	 */
+	public static List<Guestbook> findByUuid_C(String uuid, long companyId) {
+		return getPersistence().findByUuid_C(uuid, companyId);
+	}
+
+	/**
+	 * Returns a range of all the guestbooks where uuid = &#63; and companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>GuestbookModelImpl</code>.
+	 * </p>
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of guestbooks
+	 * @param end the upper bound of the range of guestbooks (not inclusive)
+	 * @return the range of matching guestbooks
+	 */
+	public static List<Guestbook> findByUuid_C(
+		String uuid, long companyId, int start, int end) {
+
+		return getPersistence().findByUuid_C(uuid, companyId, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the guestbooks where uuid = &#63; and companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>GuestbookModelImpl</code>.
+	 * </p>
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of guestbooks
+	 * @param end the upper bound of the range of guestbooks (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching guestbooks
+	 */
+	public static List<Guestbook> findByUuid_C(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Guestbook> orderByComparator) {
+
+		return getPersistence().findByUuid_C(
+			uuid, companyId, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the guestbooks where uuid = &#63; and companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>GuestbookModelImpl</code>.
+	 * </p>
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of guestbooks
+	 * @param end the upper bound of the range of guestbooks (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching guestbooks
+	 */
+	public static List<Guestbook> findByUuid_C(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Guestbook> orderByComparator,
+		boolean useFinderCache) {
+
+		return getPersistence().findByUuid_C(
+			uuid, companyId, start, end, orderByComparator, useFinderCache);
+	}
+
+	/**
+	 * Returns the first guestbook in the ordered set where uuid = &#63; and companyId = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching guestbook
+	 * @throws NoSuchGuestbookException if a matching guestbook could not be found
+	 */
+	public static Guestbook findByUuid_C_First(
+			String uuid, long companyId,
+			OrderByComparator<Guestbook> orderByComparator)
+		throws com.liferay.docs.guestbook.exception.NoSuchGuestbookException {
+
+		return getPersistence().findByUuid_C_First(
+			uuid, companyId, orderByComparator);
+	}
+
+	/**
+	 * Returns the first guestbook in the ordered set where uuid = &#63; and companyId = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching guestbook, or <code>null</code> if a matching guestbook could not be found
+	 */
+	public static Guestbook fetchByUuid_C_First(
+		String uuid, long companyId,
+		OrderByComparator<Guestbook> orderByComparator) {
+
+		return getPersistence().fetchByUuid_C_First(
+			uuid, companyId, orderByComparator);
+	}
+
+	/**
+	 * Returns the last guestbook in the ordered set where uuid = &#63; and companyId = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching guestbook
+	 * @throws NoSuchGuestbookException if a matching guestbook could not be found
+	 */
+	public static Guestbook findByUuid_C_Last(
+			String uuid, long companyId,
+			OrderByComparator<Guestbook> orderByComparator)
+		throws com.liferay.docs.guestbook.exception.NoSuchGuestbookException {
+
+		return getPersistence().findByUuid_C_Last(
+			uuid, companyId, orderByComparator);
+	}
+
+	/**
+	 * Returns the last guestbook in the ordered set where uuid = &#63; and companyId = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching guestbook, or <code>null</code> if a matching guestbook could not be found
+	 */
+	public static Guestbook fetchByUuid_C_Last(
+		String uuid, long companyId,
+		OrderByComparator<Guestbook> orderByComparator) {
+
+		return getPersistence().fetchByUuid_C_Last(
+			uuid, companyId, orderByComparator);
+	}
+
+	/**
+	 * Returns the guestbooks before and after the current guestbook in the ordered set where uuid = &#63; and companyId = &#63;.
+	 *
+	 * @param guestbookId the primary key of the current guestbook
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next guestbook
+	 * @throws NoSuchGuestbookException if a guestbook with the primary key could not be found
+	 */
+	public static Guestbook[] findByUuid_C_PrevAndNext(
+			long guestbookId, String uuid, long companyId,
+			OrderByComparator<Guestbook> orderByComparator)
+		throws com.liferay.docs.guestbook.exception.NoSuchGuestbookException {
+
+		return getPersistence().findByUuid_C_PrevAndNext(
+			guestbookId, uuid, companyId, orderByComparator);
+	}
+
+	/**
+	 * Removes all the guestbooks where uuid = &#63; and companyId = &#63; from the database.
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 */
+	public static void removeByUuid_C(String uuid, long companyId) {
+		getPersistence().removeByUuid_C(uuid, companyId);
+	}
+
+	/**
+	 * Returns the number of guestbooks where uuid = &#63; and companyId = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @return the number of matching guestbooks
+	 */
+	public static int countByUuid_C(String uuid, long companyId) {
+		return getPersistence().countByUuid_C(uuid, companyId);
+	}
+
+	/**
 	 * Returns all the guestbooks where groupId = &#63;.
 	 *
 	 * @param groupId the group ID
 	 * @return the matching guestbooks
 	 */
-	public static List<Guestbook> findByEntry(long groupId) {
-		return getPersistence().findByEntry(groupId);
+	public static List<Guestbook> findByGroupId(long groupId) {
+		return getPersistence().findByGroupId(groupId);
 	}
 
 	/**
@@ -357,10 +541,10 @@ public class GuestbookUtil {
 	 * @param end the upper bound of the range of guestbooks (not inclusive)
 	 * @return the range of matching guestbooks
 	 */
-	public static List<Guestbook> findByEntry(
+	public static List<Guestbook> findByGroupId(
 		long groupId, int start, int end) {
 
-		return getPersistence().findByEntry(groupId, start, end);
+		return getPersistence().findByGroupId(groupId, start, end);
 	}
 
 	/**
@@ -376,11 +560,11 @@ public class GuestbookUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching guestbooks
 	 */
-	public static List<Guestbook> findByEntry(
+	public static List<Guestbook> findByGroupId(
 		long groupId, int start, int end,
 		OrderByComparator<Guestbook> orderByComparator) {
 
-		return getPersistence().findByEntry(
+		return getPersistence().findByGroupId(
 			groupId, start, end, orderByComparator);
 	}
 
@@ -398,12 +582,12 @@ public class GuestbookUtil {
 	 * @param useFinderCache whether to use the finder cache
 	 * @return the ordered range of matching guestbooks
 	 */
-	public static List<Guestbook> findByEntry(
+	public static List<Guestbook> findByGroupId(
 		long groupId, int start, int end,
 		OrderByComparator<Guestbook> orderByComparator,
 		boolean useFinderCache) {
 
-		return getPersistence().findByEntry(
+		return getPersistence().findByGroupId(
 			groupId, start, end, orderByComparator, useFinderCache);
 	}
 
@@ -415,11 +599,11 @@ public class GuestbookUtil {
 	 * @return the first matching guestbook
 	 * @throws NoSuchGuestbookException if a matching guestbook could not be found
 	 */
-	public static Guestbook findByEntry_First(
+	public static Guestbook findByGroupId_First(
 			long groupId, OrderByComparator<Guestbook> orderByComparator)
 		throws com.liferay.docs.guestbook.exception.NoSuchGuestbookException {
 
-		return getPersistence().findByEntry_First(groupId, orderByComparator);
+		return getPersistence().findByGroupId_First(groupId, orderByComparator);
 	}
 
 	/**
@@ -429,10 +613,11 @@ public class GuestbookUtil {
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching guestbook, or <code>null</code> if a matching guestbook could not be found
 	 */
-	public static Guestbook fetchByEntry_First(
+	public static Guestbook fetchByGroupId_First(
 		long groupId, OrderByComparator<Guestbook> orderByComparator) {
 
-		return getPersistence().fetchByEntry_First(groupId, orderByComparator);
+		return getPersistence().fetchByGroupId_First(
+			groupId, orderByComparator);
 	}
 
 	/**
@@ -443,11 +628,11 @@ public class GuestbookUtil {
 	 * @return the last matching guestbook
 	 * @throws NoSuchGuestbookException if a matching guestbook could not be found
 	 */
-	public static Guestbook findByEntry_Last(
+	public static Guestbook findByGroupId_Last(
 			long groupId, OrderByComparator<Guestbook> orderByComparator)
 		throws com.liferay.docs.guestbook.exception.NoSuchGuestbookException {
 
-		return getPersistence().findByEntry_Last(groupId, orderByComparator);
+		return getPersistence().findByGroupId_Last(groupId, orderByComparator);
 	}
 
 	/**
@@ -457,10 +642,10 @@ public class GuestbookUtil {
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching guestbook, or <code>null</code> if a matching guestbook could not be found
 	 */
-	public static Guestbook fetchByEntry_Last(
+	public static Guestbook fetchByGroupId_Last(
 		long groupId, OrderByComparator<Guestbook> orderByComparator) {
 
-		return getPersistence().fetchByEntry_Last(groupId, orderByComparator);
+		return getPersistence().fetchByGroupId_Last(groupId, orderByComparator);
 	}
 
 	/**
@@ -472,12 +657,12 @@ public class GuestbookUtil {
 	 * @return the previous, current, and next guestbook
 	 * @throws NoSuchGuestbookException if a guestbook with the primary key could not be found
 	 */
-	public static Guestbook[] findByEntry_PrevAndNext(
+	public static Guestbook[] findByGroupId_PrevAndNext(
 			long guestbookId, long groupId,
 			OrderByComparator<Guestbook> orderByComparator)
 		throws com.liferay.docs.guestbook.exception.NoSuchGuestbookException {
 
-		return getPersistence().findByEntry_PrevAndNext(
+		return getPersistence().findByGroupId_PrevAndNext(
 			guestbookId, groupId, orderByComparator);
 	}
 
@@ -486,8 +671,8 @@ public class GuestbookUtil {
 	 *
 	 * @param groupId the group ID
 	 */
-	public static void removeByEntry(long groupId) {
-		getPersistence().removeByEntry(groupId);
+	public static void removeByGroupId(long groupId) {
+		getPersistence().removeByGroupId(groupId);
 	}
 
 	/**
@@ -496,8 +681,8 @@ public class GuestbookUtil {
 	 * @param groupId the group ID
 	 * @return the number of matching guestbooks
 	 */
-	public static int countByEntry(long groupId) {
-		return getPersistence().countByEntry(groupId);
+	public static int countByGroupId(long groupId) {
+		return getPersistence().countByGroupId(groupId);
 	}
 
 	/**

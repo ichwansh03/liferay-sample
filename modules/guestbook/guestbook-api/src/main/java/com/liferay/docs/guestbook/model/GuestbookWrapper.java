@@ -5,6 +5,7 @@
 
 package com.liferay.docs.guestbook.model;
 
+import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
@@ -36,6 +37,11 @@ public class GuestbookWrapper
 		attributes.put("uuid", getUuid());
 		attributes.put("guestbookId", getGuestbookId());
 		attributes.put("groupId", getGroupId());
+		attributes.put("companyId", getCompanyId());
+		attributes.put("userId", getUserId());
+		attributes.put("userName", getUserName());
+		attributes.put("createDate", getCreateDate());
+		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("status", getStatus());
 		attributes.put("statusByUserId", getStatusByUserId());
 		attributes.put("statusByUserName", getStatusByUserName());
@@ -63,6 +69,36 @@ public class GuestbookWrapper
 
 		if (groupId != null) {
 			setGroupId(groupId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
+		}
+
+		Long userId = (Long)attributes.get("userId");
+
+		if (userId != null) {
+			setUserId(userId);
+		}
+
+		String userName = (String)attributes.get("userName");
+
+		if (userName != null) {
+			setUserName(userName);
+		}
+
+		Date createDate = (Date)attributes.get("createDate");
+
+		if (createDate != null) {
+			setCreateDate(createDate);
+		}
+
+		Date modifiedDate = (Date)attributes.get("modifiedDate");
+
+		if (modifiedDate != null) {
+			setModifiedDate(modifiedDate);
 		}
 
 		Integer status = (Integer)attributes.get("status");
@@ -97,6 +133,26 @@ public class GuestbookWrapper
 	}
 
 	/**
+	 * Returns the company ID of this guestbook.
+	 *
+	 * @return the company ID of this guestbook
+	 */
+	@Override
+	public long getCompanyId() {
+		return model.getCompanyId();
+	}
+
+	/**
+	 * Returns the create date of this guestbook.
+	 *
+	 * @return the create date of this guestbook
+	 */
+	@Override
+	public Date getCreateDate() {
+		return model.getCreateDate();
+	}
+
+	/**
 	 * Returns the group ID of this guestbook.
 	 *
 	 * @return the group ID of this guestbook
@@ -114,6 +170,16 @@ public class GuestbookWrapper
 	@Override
 	public long getGuestbookId() {
 		return model.getGuestbookId();
+	}
+
+	/**
+	 * Returns the modified date of this guestbook.
+	 *
+	 * @return the modified date of this guestbook
+	 */
+	@Override
+	public Date getModifiedDate() {
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -184,6 +250,36 @@ public class GuestbookWrapper
 	@Override
 	public Date getStatusDate() {
 		return model.getStatusDate();
+	}
+
+	/**
+	 * Returns the user ID of this guestbook.
+	 *
+	 * @return the user ID of this guestbook
+	 */
+	@Override
+	public long getUserId() {
+		return model.getUserId();
+	}
+
+	/**
+	 * Returns the user name of this guestbook.
+	 *
+	 * @return the user name of this guestbook
+	 */
+	@Override
+	public String getUserName() {
+		return model.getUserName();
+	}
+
+	/**
+	 * Returns the user uuid of this guestbook.
+	 *
+	 * @return the user uuid of this guestbook
+	 */
+	@Override
+	public String getUserUuid() {
+		return model.getUserUuid();
 	}
 
 	/**
@@ -282,6 +378,26 @@ public class GuestbookWrapper
 	}
 
 	/**
+	 * Sets the company ID of this guestbook.
+	 *
+	 * @param companyId the company ID of this guestbook
+	 */
+	@Override
+	public void setCompanyId(long companyId) {
+		model.setCompanyId(companyId);
+	}
+
+	/**
+	 * Sets the create date of this guestbook.
+	 *
+	 * @param createDate the create date of this guestbook
+	 */
+	@Override
+	public void setCreateDate(Date createDate) {
+		model.setCreateDate(createDate);
+	}
+
+	/**
 	 * Sets the group ID of this guestbook.
 	 *
 	 * @param groupId the group ID of this guestbook
@@ -299,6 +415,16 @@ public class GuestbookWrapper
 	@Override
 	public void setGuestbookId(long guestbookId) {
 		model.setGuestbookId(guestbookId);
+	}
+
+	/**
+	 * Sets the modified date of this guestbook.
+	 *
+	 * @param modifiedDate the modified date of this guestbook
+	 */
+	@Override
+	public void setModifiedDate(Date modifiedDate) {
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -372,6 +498,36 @@ public class GuestbookWrapper
 	}
 
 	/**
+	 * Sets the user ID of this guestbook.
+	 *
+	 * @param userId the user ID of this guestbook
+	 */
+	@Override
+	public void setUserId(long userId) {
+		model.setUserId(userId);
+	}
+
+	/**
+	 * Sets the user name of this guestbook.
+	 *
+	 * @param userName the user name of this guestbook
+	 */
+	@Override
+	public void setUserName(String userName) {
+		model.setUserName(userName);
+	}
+
+	/**
+	 * Sets the user uuid of this guestbook.
+	 *
+	 * @param userUuid the user uuid of this guestbook
+	 */
+	@Override
+	public void setUserUuid(String userUuid) {
+		model.setUserUuid(userUuid);
+	}
+
+	/**
 	 * Sets the uuid of this guestbook.
 	 *
 	 * @param uuid the uuid of this guestbook
@@ -379,6 +535,11 @@ public class GuestbookWrapper
 	@Override
 	public void setUuid(String uuid) {
 		model.setUuid(uuid);
+	}
+
+	@Override
+	public StagedModelType getStagedModelType() {
+		return model.getStagedModelType();
 	}
 
 	@Override

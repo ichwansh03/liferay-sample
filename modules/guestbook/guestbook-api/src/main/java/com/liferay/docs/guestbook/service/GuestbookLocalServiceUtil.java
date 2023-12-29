@@ -49,6 +49,14 @@ public class GuestbookLocalServiceUtil {
 		return getService().addGuestbook(guestbook);
 	}
 
+	public static Guestbook addGuestbook(
+			long userId, String name,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().addGuestbook(userId, name, serviceContext);
+	}
+
 	/**
 	 * Creates a new guestbook with the primary key. Does not add the guestbook to the database.
 	 *
@@ -210,6 +218,14 @@ public class GuestbookLocalServiceUtil {
 		return getService().getActionableDynamicQuery();
 	}
 
+	public static com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery
+		getExportActionableDynamicQuery(
+			com.liferay.exportimport.kernel.lar.PortletDataContext
+				portletDataContext) {
+
+		return getService().getExportActionableDynamicQuery(portletDataContext);
+	}
+
 	/**
 	 * Returns the guestbook with the primary key.
 	 *
@@ -238,6 +254,10 @@ public class GuestbookLocalServiceUtil {
 		return getService().getGuestbookByUuidAndGroupId(uuid, groupId);
 	}
 
+	public static int getGuestbookCount(long groupId) {
+		return getService().getGuestbookCount(groupId);
+	}
+
 	/**
 	 * Returns a range of all the guestbooks.
 	 *
@@ -251,6 +271,53 @@ public class GuestbookLocalServiceUtil {
 	 */
 	public static List<Guestbook> getGuestbooks(int start, int end) {
 		return getService().getGuestbooks(start, end);
+	}
+
+	public static List<Guestbook> getGuestbooks(long groupId) {
+		return getService().getGuestbooks(groupId);
+	}
+
+	public static List<Guestbook> getGuestbooks(
+		long groupId, int start, int end) {
+
+		return getService().getGuestbooks(groupId, start, end);
+	}
+
+	public static List<Guestbook> getGuestbooks(
+		long groupId, int start, int end, OrderByComparator<Guestbook> obc) {
+
+		return getService().getGuestbooks(groupId, start, end, obc);
+	}
+
+	/**
+	 * Returns all the guestbooks matching the UUID and company.
+	 *
+	 * @param uuid the UUID of the guestbooks
+	 * @param companyId the primary key of the company
+	 * @return the matching guestbooks, or an empty list if no matches were found
+	 */
+	public static List<Guestbook> getGuestbooksByUuidAndCompanyId(
+		String uuid, long companyId) {
+
+		return getService().getGuestbooksByUuidAndCompanyId(uuid, companyId);
+	}
+
+	/**
+	 * Returns a range of guestbooks matching the UUID and company.
+	 *
+	 * @param uuid the UUID of the guestbooks
+	 * @param companyId the primary key of the company
+	 * @param start the lower bound of the range of guestbooks
+	 * @param end the upper bound of the range of guestbooks (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the range of matching guestbooks, or an empty list if no matches were found
+	 */
+	public static List<Guestbook> getGuestbooksByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Guestbook> orderByComparator) {
+
+		return getService().getGuestbooksByUuidAndCompanyId(
+			uuid, companyId, start, end, orderByComparator);
 	}
 
 	/**

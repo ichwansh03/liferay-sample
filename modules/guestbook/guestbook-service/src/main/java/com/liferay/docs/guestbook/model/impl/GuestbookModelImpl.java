@@ -10,6 +10,7 @@ import com.liferay.docs.guestbook.model.GuestbookModel;
 import com.liferay.docs.guestbook.model.GuestbookSoap;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -21,6 +22,7 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -67,9 +69,12 @@ public class GuestbookModelImpl
 
 	public static final Object[][] TABLE_COLUMNS = {
 		{"uuid_", Types.VARCHAR}, {"guestbookId", Types.BIGINT},
-		{"groupId", Types.BIGINT}, {"status", Types.INTEGER},
-		{"statusByUserId", Types.BIGINT}, {"statusByUserName", Types.VARCHAR},
-		{"statusDate", Types.TIMESTAMP}, {"name", Types.VARCHAR}
+		{"groupId", Types.BIGINT}, {"companyId", Types.BIGINT},
+		{"userId", Types.BIGINT}, {"userName", Types.VARCHAR},
+		{"createDate", Types.TIMESTAMP}, {"modifiedDate", Types.TIMESTAMP},
+		{"status", Types.INTEGER}, {"statusByUserId", Types.BIGINT},
+		{"statusByUserName", Types.VARCHAR}, {"statusDate", Types.TIMESTAMP},
+		{"name", Types.VARCHAR}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -79,6 +84,11 @@ public class GuestbookModelImpl
 		TABLE_COLUMNS_MAP.put("uuid_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("guestbookId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("groupId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("userId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("userName", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("status", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("statusByUserId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
@@ -87,7 +97,7 @@ public class GuestbookModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table GB_Guestbook (uuid_ VARCHAR(75) null,guestbookId LONG not null primary key,groupId LONG,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,name VARCHAR(75) null)";
+		"create table GB_Guestbook (uuid_ VARCHAR(75) null,guestbookId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,name VARCHAR(75) null)";
 
 	public static final String TABLE_SQL_DROP = "drop table GB_Guestbook";
 
@@ -107,20 +117,26 @@ public class GuestbookModelImpl
 	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
 	 */
 	@Deprecated
-	public static final long GROUPID_COLUMN_BITMASK = 1L;
+	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
 	 */
 	@Deprecated
-	public static final long UUID_COLUMN_BITMASK = 2L;
+	public static final long GROUPID_COLUMN_BITMASK = 2L;
+
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
+	public static final long UUID_COLUMN_BITMASK = 4L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
 	 *		#getColumnBitmask(String)}
 	 */
 	@Deprecated
-	public static final long GUESTBOOKID_COLUMN_BITMASK = 4L;
+	public static final long GUESTBOOKID_COLUMN_BITMASK = 8L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -154,6 +170,11 @@ public class GuestbookModelImpl
 		model.setUuid(soapModel.getUuid());
 		model.setGuestbookId(soapModel.getGuestbookId());
 		model.setGroupId(soapModel.getGroupId());
+		model.setCompanyId(soapModel.getCompanyId());
+		model.setUserId(soapModel.getUserId());
+		model.setUserName(soapModel.getUserName());
+		model.setCreateDate(soapModel.getCreateDate());
+		model.setModifiedDate(soapModel.getModifiedDate());
 		model.setStatus(soapModel.getStatus());
 		model.setStatusByUserId(soapModel.getStatusByUserId());
 		model.setStatusByUserName(soapModel.getStatusByUserName());
@@ -279,6 +300,12 @@ public class GuestbookModelImpl
 		attributeGetterFunctions.put("uuid", Guestbook::getUuid);
 		attributeGetterFunctions.put("guestbookId", Guestbook::getGuestbookId);
 		attributeGetterFunctions.put("groupId", Guestbook::getGroupId);
+		attributeGetterFunctions.put("companyId", Guestbook::getCompanyId);
+		attributeGetterFunctions.put("userId", Guestbook::getUserId);
+		attributeGetterFunctions.put("userName", Guestbook::getUserName);
+		attributeGetterFunctions.put("createDate", Guestbook::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", Guestbook::getModifiedDate);
 		attributeGetterFunctions.put("status", Guestbook::getStatus);
 		attributeGetterFunctions.put(
 			"statusByUserId", Guestbook::getStatusByUserId);
@@ -305,6 +332,18 @@ public class GuestbookModelImpl
 			(BiConsumer<Guestbook, Long>)Guestbook::setGuestbookId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<Guestbook, Long>)Guestbook::setGroupId);
+		attributeSetterBiConsumers.put(
+			"companyId", (BiConsumer<Guestbook, Long>)Guestbook::setCompanyId);
+		attributeSetterBiConsumers.put(
+			"userId", (BiConsumer<Guestbook, Long>)Guestbook::setUserId);
+		attributeSetterBiConsumers.put(
+			"userName", (BiConsumer<Guestbook, String>)Guestbook::setUserName);
+		attributeSetterBiConsumers.put(
+			"createDate",
+			(BiConsumer<Guestbook, Date>)Guestbook::setCreateDate);
+		attributeSetterBiConsumers.put(
+			"modifiedDate",
+			(BiConsumer<Guestbook, Date>)Guestbook::setModifiedDate);
 		attributeSetterBiConsumers.put(
 			"status", (BiConsumer<Guestbook, Integer>)Guestbook::setStatus);
 		attributeSetterBiConsumers.put(
@@ -389,6 +428,118 @@ public class GuestbookModelImpl
 	@Deprecated
 	public long getOriginalGroupId() {
 		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
+	}
+
+	@JSON
+	@Override
+	public long getCompanyId() {
+		return _companyId;
+	}
+
+	@Override
+	public void setCompanyId(long companyId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_companyId = companyId;
+	}
+
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
+	public long getOriginalCompanyId() {
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
+	}
+
+	@JSON
+	@Override
+	public long getUserId() {
+		return _userId;
+	}
+
+	@Override
+	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_userId = userId;
+	}
+
+	@Override
+	public String getUserUuid() {
+		try {
+			User user = UserLocalServiceUtil.getUserById(getUserId());
+
+			return user.getUuid();
+		}
+		catch (PortalException portalException) {
+			return "";
+		}
+	}
+
+	@Override
+	public void setUserUuid(String userUuid) {
+	}
+
+	@JSON
+	@Override
+	public String getUserName() {
+		if (_userName == null) {
+			return "";
+		}
+		else {
+			return _userName;
+		}
+	}
+
+	@Override
+	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_userName = userName;
+	}
+
+	@JSON
+	@Override
+	public Date getCreateDate() {
+		return _createDate;
+	}
+
+	@Override
+	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_createDate = createDate;
+	}
+
+	@JSON
+	@Override
+	public Date getModifiedDate() {
+		return _modifiedDate;
+	}
+
+	public boolean hasSetModifiedDate() {
+		return _setModifiedDate;
+	}
+
+	@Override
+	public void setModifiedDate(Date modifiedDate) {
+		_setModifiedDate = true;
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_modifiedDate = modifiedDate;
 	}
 
 	@JSON
@@ -490,6 +641,12 @@ public class GuestbookModelImpl
 		}
 
 		_name = name;
+	}
+
+	@Override
+	public StagedModelType getStagedModelType() {
+		return new StagedModelType(
+			PortalUtil.getClassNameId(Guestbook.class.getName()));
 	}
 
 	@Override
@@ -599,7 +756,7 @@ public class GuestbookModelImpl
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return ExpandoBridgeFactoryUtil.getExpandoBridge(
-			0, Guestbook.class.getName(), getPrimaryKey());
+			getCompanyId(), Guestbook.class.getName(), getPrimaryKey());
 	}
 
 	@Override
@@ -631,6 +788,11 @@ public class GuestbookModelImpl
 		guestbookImpl.setUuid(getUuid());
 		guestbookImpl.setGuestbookId(getGuestbookId());
 		guestbookImpl.setGroupId(getGroupId());
+		guestbookImpl.setCompanyId(getCompanyId());
+		guestbookImpl.setUserId(getUserId());
+		guestbookImpl.setUserName(getUserName());
+		guestbookImpl.setCreateDate(getCreateDate());
+		guestbookImpl.setModifiedDate(getModifiedDate());
 		guestbookImpl.setStatus(getStatus());
 		guestbookImpl.setStatusByUserId(getStatusByUserId());
 		guestbookImpl.setStatusByUserName(getStatusByUserName());
@@ -706,6 +868,8 @@ public class GuestbookModelImpl
 	public void resetOriginalValues() {
 		_columnOriginalValues = Collections.emptyMap();
 
+		_setModifiedDate = false;
+
 		_columnBitmask = 0;
 	}
 
@@ -724,6 +888,36 @@ public class GuestbookModelImpl
 		guestbookCacheModel.guestbookId = getGuestbookId();
 
 		guestbookCacheModel.groupId = getGroupId();
+
+		guestbookCacheModel.companyId = getCompanyId();
+
+		guestbookCacheModel.userId = getUserId();
+
+		guestbookCacheModel.userName = getUserName();
+
+		String userName = guestbookCacheModel.userName;
+
+		if ((userName != null) && (userName.length() == 0)) {
+			guestbookCacheModel.userName = null;
+		}
+
+		Date createDate = getCreateDate();
+
+		if (createDate != null) {
+			guestbookCacheModel.createDate = createDate.getTime();
+		}
+		else {
+			guestbookCacheModel.createDate = Long.MIN_VALUE;
+		}
+
+		Date modifiedDate = getModifiedDate();
+
+		if (modifiedDate != null) {
+			guestbookCacheModel.modifiedDate = modifiedDate.getTime();
+		}
+		else {
+			guestbookCacheModel.modifiedDate = Long.MIN_VALUE;
+		}
 
 		guestbookCacheModel.status = getStatus();
 
@@ -849,6 +1043,12 @@ public class GuestbookModelImpl
 	private String _uuid;
 	private long _guestbookId;
 	private long _groupId;
+	private long _companyId;
+	private long _userId;
+	private String _userName;
+	private Date _createDate;
+	private Date _modifiedDate;
+	private boolean _setModifiedDate;
 	private int _status;
 	private long _statusByUserId;
 	private String _statusByUserName;
@@ -887,6 +1087,11 @@ public class GuestbookModelImpl
 		_columnOriginalValues.put("uuid_", _uuid);
 		_columnOriginalValues.put("guestbookId", _guestbookId);
 		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
 		_columnOriginalValues.put("status", _status);
 		_columnOriginalValues.put("statusByUserId", _statusByUserId);
 		_columnOriginalValues.put("statusByUserName", _statusByUserName);
@@ -921,15 +1126,25 @@ public class GuestbookModelImpl
 
 		columnBitmasks.put("groupId", 4L);
 
-		columnBitmasks.put("status", 8L);
+		columnBitmasks.put("companyId", 8L);
 
-		columnBitmasks.put("statusByUserId", 16L);
+		columnBitmasks.put("userId", 16L);
 
-		columnBitmasks.put("statusByUserName", 32L);
+		columnBitmasks.put("userName", 32L);
 
-		columnBitmasks.put("statusDate", 64L);
+		columnBitmasks.put("createDate", 64L);
 
-		columnBitmasks.put("name", 128L);
+		columnBitmasks.put("modifiedDate", 128L);
+
+		columnBitmasks.put("status", 256L);
+
+		columnBitmasks.put("statusByUserId", 512L);
+
+		columnBitmasks.put("statusByUserName", 1024L);
+
+		columnBitmasks.put("statusDate", 2048L);
+
+		columnBitmasks.put("name", 4096L);
 
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}

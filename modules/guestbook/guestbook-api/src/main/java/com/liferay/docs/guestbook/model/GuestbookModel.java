@@ -7,6 +7,9 @@ package com.liferay.docs.guestbook.model;
 
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
+import com.liferay.portal.kernel.model.GroupedModel;
+import com.liferay.portal.kernel.model.ShardedModel;
+import com.liferay.portal.kernel.model.StagedAuditedModel;
 import com.liferay.portal.kernel.model.WorkflowedModel;
 
 import java.util.Date;
@@ -25,7 +28,9 @@ import org.osgi.annotation.versioning.ProviderType;
  * @generated
  */
 @ProviderType
-public interface GuestbookModel extends BaseModel<Guestbook>, WorkflowedModel {
+public interface GuestbookModel
+	extends BaseModel<Guestbook>, GroupedModel, ShardedModel,
+			StagedAuditedModel, WorkflowedModel {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -53,6 +58,7 @@ public interface GuestbookModel extends BaseModel<Guestbook>, WorkflowedModel {
 	 * @return the uuid of this guestbook
 	 */
 	@AutoEscape
+	@Override
 	public String getUuid();
 
 	/**
@@ -60,6 +66,7 @@ public interface GuestbookModel extends BaseModel<Guestbook>, WorkflowedModel {
 	 *
 	 * @param uuid the uuid of this guestbook
 	 */
+	@Override
 	public void setUuid(String uuid);
 
 	/**
@@ -81,6 +88,7 @@ public interface GuestbookModel extends BaseModel<Guestbook>, WorkflowedModel {
 	 *
 	 * @return the group ID of this guestbook
 	 */
+	@Override
 	public long getGroupId();
 
 	/**
@@ -88,7 +96,105 @@ public interface GuestbookModel extends BaseModel<Guestbook>, WorkflowedModel {
 	 *
 	 * @param groupId the group ID of this guestbook
 	 */
+	@Override
 	public void setGroupId(long groupId);
+
+	/**
+	 * Returns the company ID of this guestbook.
+	 *
+	 * @return the company ID of this guestbook
+	 */
+	@Override
+	public long getCompanyId();
+
+	/**
+	 * Sets the company ID of this guestbook.
+	 *
+	 * @param companyId the company ID of this guestbook
+	 */
+	@Override
+	public void setCompanyId(long companyId);
+
+	/**
+	 * Returns the user ID of this guestbook.
+	 *
+	 * @return the user ID of this guestbook
+	 */
+	@Override
+	public long getUserId();
+
+	/**
+	 * Sets the user ID of this guestbook.
+	 *
+	 * @param userId the user ID of this guestbook
+	 */
+	@Override
+	public void setUserId(long userId);
+
+	/**
+	 * Returns the user uuid of this guestbook.
+	 *
+	 * @return the user uuid of this guestbook
+	 */
+	@Override
+	public String getUserUuid();
+
+	/**
+	 * Sets the user uuid of this guestbook.
+	 *
+	 * @param userUuid the user uuid of this guestbook
+	 */
+	@Override
+	public void setUserUuid(String userUuid);
+
+	/**
+	 * Returns the user name of this guestbook.
+	 *
+	 * @return the user name of this guestbook
+	 */
+	@AutoEscape
+	@Override
+	public String getUserName();
+
+	/**
+	 * Sets the user name of this guestbook.
+	 *
+	 * @param userName the user name of this guestbook
+	 */
+	@Override
+	public void setUserName(String userName);
+
+	/**
+	 * Returns the create date of this guestbook.
+	 *
+	 * @return the create date of this guestbook
+	 */
+	@Override
+	public Date getCreateDate();
+
+	/**
+	 * Sets the create date of this guestbook.
+	 *
+	 * @param createDate the create date of this guestbook
+	 */
+	@Override
+	public void setCreateDate(Date createDate);
+
+	/**
+	 * Returns the modified date of this guestbook.
+	 *
+	 * @return the modified date of this guestbook
+	 */
+	@Override
+	public Date getModifiedDate();
+
+	/**
+	 * Sets the modified date of this guestbook.
+	 *
+	 * @param modifiedDate the modified date of this guestbook
+	 */
+	@Override
+	public void setModifiedDate(Date modifiedDate);
 
 	/**
 	 * Returns the status of this guestbook.

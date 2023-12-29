@@ -10,17 +10,30 @@ import com.liferay.docs.guestbook.service.GuestbookLocalService;
 import com.liferay.docs.guestbook.service.GuestbookLocalServiceUtil;
 import com.liferay.docs.guestbook.service.persistence.EntryPersistence;
 import com.liferay.docs.guestbook.service.persistence.GuestbookPersistence;
+import com.liferay.exportimport.kernel.lar.ExportImportHelperUtil;
+import com.liferay.exportimport.kernel.lar.ManifestSummary;
+import com.liferay.exportimport.kernel.lar.PortletDataContext;
+import com.liferay.exportimport.kernel.lar.StagedModelDataHandler;
+import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerRegistryUtil;
+import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
+import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdate;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdateFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
+import com.liferay.portal.kernel.dao.orm.Criterion;
 import com.liferay.portal.kernel.dao.orm.DefaultActionableDynamicQuery;
+import com.liferay.portal.kernel.dao.orm.Disjunction;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
+import com.liferay.portal.kernel.dao.orm.Property;
+import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
@@ -35,6 +48,7 @@ import com.liferay.portal.kernel.service.persistence.BasePersistence;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.io.Serializable;
 
@@ -287,6 +301,107 @@ public abstract class GuestbookLocalServiceBaseImpl
 		actionableDynamicQuery.setPrimaryKeyPropertyName("guestbookId");
 	}
 
+	@Override
+	public ExportActionableDynamicQuery getExportActionableDynamicQuery(
+		final PortletDataContext portletDataContext) {
+
+		final ExportActionableDynamicQuery exportActionableDynamicQuery =
+			new ExportActionableDynamicQuery() {
+
+				@Override
+				public long performCount() throws PortalException {
+					ManifestSummary manifestSummary =
+						portletDataContext.getManifestSummary();
+
+					StagedModelType stagedModelType = getStagedModelType();
+
+					long modelAdditionCount = super.performCount();
+
+					manifestSummary.addModelAdditionCount(
+						stagedModelType, modelAdditionCount);
+
+					long modelDeletionCount =
+						ExportImportHelperUtil.getModelDeletionCount(
+							portletDataContext, stagedModelType);
+
+					manifestSummary.addModelDeletionCount(
+						stagedModelType, modelDeletionCount);
+
+					return modelAdditionCount;
+				}
+
+			};
+
+		initActionableDynamicQuery(exportActionableDynamicQuery);
+
+		exportActionableDynamicQuery.setAddCriteriaMethod(
+			new ActionableDynamicQuery.AddCriteriaMethod() {
+
+				@Override
+				public void addCriteria(DynamicQuery dynamicQuery) {
+					Criterion modifiedDateCriterion =
+						portletDataContext.getDateRangeCriteria("modifiedDate");
+
+					Criterion statusDateCriterion =
+						portletDataContext.getDateRangeCriteria("statusDate");
+
+					if ((modifiedDateCriterion != null) &&
+						(statusDateCriterion != null)) {
+
+						Disjunction disjunction =
+							RestrictionsFactoryUtil.disjunction();
+
+						disjunction.add(modifiedDateCriterion);
+						disjunction.add(statusDateCriterion);
+
+						dynamicQuery.add(disjunction);
+					}
+
+					Property workflowStatusProperty =
+						PropertyFactoryUtil.forName("status");
+
+					if (portletDataContext.isInitialPublication()) {
+						dynamicQuery.add(
+							workflowStatusProperty.ne(
+								WorkflowConstants.STATUS_IN_TRASH));
+					}
+					else {
+						StagedModelDataHandler<?> stagedModelDataHandler =
+							StagedModelDataHandlerRegistryUtil.
+								getStagedModelDataHandler(
+									Guestbook.class.getName());
+
+						dynamicQuery.add(
+							workflowStatusProperty.in(
+								stagedModelDataHandler.
+									getExportableStatuses()));
+					}
+				}
+
+			});
+
+		exportActionableDynamicQuery.setCompanyId(
+			portletDataContext.getCompanyId());
+
+		exportActionableDynamicQuery.setPerformActionMethod(
+			new ActionableDynamicQuery.PerformActionMethod<Guestbook>() {
+
+				@Override
+				public void performAction(Guestbook guestbook)
+					throws PortalException {
+
+					StagedModelDataHandlerUtil.exportStagedModel(
+						portletDataContext, guestbook);
+				}
+
+			});
+		exportActionableDynamicQuery.setStagedModelType(
+			new StagedModelType(
+				PortalUtil.getClassNameId(Guestbook.class.getName())));
+
+		return exportActionableDynamicQuery;
+	}
+
 	/**
 	 * @throws PortalException
 	 */
@@ -318,6 +433,39 @@ public abstract class GuestbookLocalServiceBaseImpl
 		throws PortalException {
 
 		return guestbookPersistence.findByPrimaryKey(primaryKeyObj);
+	}
+
+	/**
+	 * Returns all the guestbooks matching the UUID and company.
+	 *
+	 * @param uuid the UUID of the guestbooks
+	 * @param companyId the primary key of the company
+	 * @return the matching guestbooks, or an empty list if no matches were found
+	 */
+	@Override
+	public List<Guestbook> getGuestbooksByUuidAndCompanyId(
+		String uuid, long companyId) {
+
+		return guestbookPersistence.findByUuid_C(uuid, companyId);
+	}
+
+	/**
+	 * Returns a range of guestbooks matching the UUID and company.
+	 *
+	 * @param uuid the UUID of the guestbooks
+	 * @param companyId the primary key of the company
+	 * @param start the lower bound of the range of guestbooks
+	 * @param end the upper bound of the range of guestbooks (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the range of matching guestbooks, or an empty list if no matches were found
+	 */
+	@Override
+	public List<Guestbook> getGuestbooksByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Guestbook> orderByComparator) {
+
+		return guestbookPersistence.findByUuid_C(
+			uuid, companyId, start, end, orderByComparator);
 	}
 
 	/**
