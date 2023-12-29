@@ -15,11 +15,16 @@
 
     <liferay-ui:search-container-row
         className="com.liferay.docs.guestbook.model.Entry"
-        modelVar="entry"
-    >
-        <liferay-ui:search-container-column-text property="message" />
+        modelVar="entry">
 
         <liferay-ui:search-container-column-text property="name" />
+
+        <liferay-ui:search-container-column-text property="email" />
+
+        <liferay-ui:search-container-column-text property="age" />
+
+        <liferay-ui:search-container-column-text property="address" />
+
     </liferay-ui:search-container-row>
 
     <liferay-ui:search-iterator />

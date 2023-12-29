@@ -9,7 +9,9 @@
 <aui:form action="<%= addEntryURL %>" name="<portlet:namespace />fm">
         <aui:fieldset>
             <aui:input name="name"></aui:input>
-            <aui:input name="message"></aui:input>
+            <aui:input name="email"></aui:input>
+            <aui:input name="age"></aui:input>
+            <aui:input name="address"></aui:input>
         </aui:fieldset>
 
         <aui:button-row>

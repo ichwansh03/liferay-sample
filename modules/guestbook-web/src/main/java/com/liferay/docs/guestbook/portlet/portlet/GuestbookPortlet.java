@@ -39,16 +39,18 @@ public class GuestbookPortlet extends MVCPortlet {
 	public void addEntry(ActionRequest request, ActionResponse response){
 		try {
 			PortletPreferences prefs = request.getPreferences();
-			String[] guestbookEntries = prefs.getValues("guestbook-entries", new String[1]);
+			String[] guestbookEntries = prefs.getValues("guestbook-entries", new String[3]);
 			ArrayList<String> entries = new ArrayList<>();
 
 			if (guestbookEntries[0] != null) {
-				entries = new ArrayList<>(Arrays.asList(prefs.getValues("guestbook-entries", new String[1])));
+				entries = new ArrayList<>(Arrays.asList(prefs.getValues("guestbook-entries", new String[3])));
 			}
 
 			String userName = ParamUtil.getString(request, "name");
-			String message = ParamUtil.getString(request, "message");
-			String entry = userName + " ^ " + message;
+			String email = ParamUtil.getString(request, "email");
+			String age = ParamUtil.getString(request, "age");
+			String address = ParamUtil.getString(request, "address");
+			String entry = userName + " ^ " + email + " ^ " + age + " ^ " + address;
 
 			entries.add(entry);
 
@@ -71,8 +73,8 @@ public class GuestbookPortlet extends MVCPortlet {
 		List<Entry> entries = new ArrayList<>();
 
 		for (String entry : guestbookEntries) {
-			String[] parts = entry.split("\\^",2);
-			Entry gbEntry = new Entry(parts[0], parts[1]);
+			String[] parts = entry.split("\\^",4);
+			Entry gbEntry = new Entry(parts[0], parts[1], parts[2], parts[3]);
 			entries.add(gbEntry);
 		}
 
@@ -83,7 +85,7 @@ public class GuestbookPortlet extends MVCPortlet {
 	public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
 
 		PortletPreferences prefs = renderRequest.getPreferences();
-		String[] guestbookEntries = prefs.getValues("guestbook-entries", new String[1]);
+		String[] guestbookEntries = prefs.getValues("guestbook-entries", new String[3]);
 
 		if (guestbookEntries[0] != null) {
 			List<Entry> entries = parseEntries(guestbookEntries);
